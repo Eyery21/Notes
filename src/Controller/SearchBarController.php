@@ -7,11 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\NotesRepository;
-
 use Symfony\Component\Routing\Annotation\Route;
 
 class SearchBarController extends AbstractController
 {
+    
+    #[Route('/search', name: 'app_search_bar')]
     public function index(Request $request,FormSearchType $searchForm, NotesRepository $notesRepository): Response
     {
         $searchForm = $this->createForm(FormSearchType::class);

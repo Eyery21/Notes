@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
             $note = new Notes();
             $note->setTitle('Note ' . $i);
             $note->setContent('Contenu de la note ' . $i);
-            $note->setUser($user); // Assignez l'utilisateur existant à la note
+// Assignez l'utilisateur existant à la note
             $manager->persist($note);
         }
 

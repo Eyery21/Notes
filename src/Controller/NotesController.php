@@ -56,7 +56,7 @@ class NotesController extends AbstractController
     public function new(Request $request, NotesRepository $notesRepository, EntityManagerInterface $entityManager): Response
     {
         $note = new Notes();
-        $note->setUser($this->getUser()); // Obtient l'utilisateur actuellement connecté et l'attribue à la note
+        //$note->setUser($this->getUser()); // Obtient l'utilisateur actuellement connecté et l'attribue à la note
 
         $form = $this->createForm(NotesType::class, $note);
         $form->handleRequest($request);
@@ -113,13 +113,6 @@ class NotesController extends AbstractController
     {
 
         $user = $this->getUser();
-
-        if ($note->getUser() !== $user) {
-            return $this->render('error/retrictionEdit.html.twig', [
-                'user' => $user
-
-            ]);
-        };
 
         $form = $this->createForm(NotesType::class, $note);
         $form->handleRequest($request);

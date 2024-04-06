@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\NotesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: NotesRepository::class)]
 class Notes
@@ -29,10 +30,9 @@ class Notes
     #[ORM\ManyToOne(inversedBy: 'notes')]
     private ?Admin $Author = null;
 
-    // Dans l'entité Notes
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'notes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user;
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'notes')]
+    private Collection $Owner;
+
 
 
 
@@ -68,6 +68,7 @@ class Notes
     public function __construct()
     {
         $this->Datetime = new \DateTimeImmutable(); // Initialise $Datetime lors de la création de l'objet
+        $this->Owner = new ArrayCollection();
     }
 
     // ... les autres getters et setters ...
@@ -107,18 +108,28 @@ class Notes
 
         return $this;
     }
+
     /**
-     * @return User|null
+     * @return Collection<int, User>
      */
-    // Dans l'entité Notes
-    public function getUser(): ?User
+    public function getOwner(): Collection
     {
-        return $this->user;
+        return $this->Owner;
     }
 
-    public function setUser(?User $user): self
+    public function addOwner(User $owner): static
     {
-        $this->user = $user;
+        if (!$this->Owner->contains($owner)) {
+            $this->Owner->add($owner);
+        }
+
+        return $this;
+    }
+
+    public function removeOwner(User $owner): static
+    {
+        $this->Owner->removeElement($owner);
+
         return $this;
     }
 }
