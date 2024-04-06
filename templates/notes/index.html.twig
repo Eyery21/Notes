@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notes index
+{% endblock %}
+
+{% block body %}
+
+	<h1>Notes index</h1>
+	<h1>bienvenu
+		{{user.email}}</h1>
+
+
+	<a href="{{ path('app_notes_new') }}">Create new</a>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Content</th>
+				<th>Datetime</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			{% for note in notes %}
+				<tr>
+					<td>{{ note.title }}</td>
+					<td>{{ note.Content }}</td>
+					<td>{{ note.Datetime ? note.Datetime|date('Y-m-d H:i:s') : '' }}</td>
+
+
+				</tr>
+				<td>
+					<a href="{{ path('app_notes_show', {'id': note.id}) }}">show</a>
+					<a href="{{ path('app_notes_edit', {'id': note.id}) }}">edit</a>
+				</td>
+			{% endfor %}
+			<form action="{{ path('app_notes_delete_all') }}" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer toutes vos notes ?');">
+				<input type="hidden" name="_token" value="{{ csrf_token('delete_all') }}">
+				<button type="submit">Supprimer toutes mes notes</button>
+			</form>
+
+
+		</tbody>
+
+	{% endblock %}

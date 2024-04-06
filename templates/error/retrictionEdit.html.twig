@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+	<h1>désolé
+		{{user.email}}</h1>
+	vous ne pouvez pas mettre à jour cette note, nous vous invitons à retournez à l'index
+
+	<a href="{{ path('app_notes_index') }}">voir les notes</a>
+
+
+{% endblock %}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> {% block stylesheets %}{% endblock %}{% block javascripts %}{% endblock %}
+		<link rel="stylesheet" href="{{ asset('css/styles.css') }}" type="text/css">
+
+	</head>
+	<body>
+		<nav>
+			{% set current_route = app.request.attributes.get('_route') %}
+
+			{% if app.user %}
+				{% if current_route != 'app_logout' %}
+					<a href="{{ path('app_logout') }}">déconnexion</a>
+				{% endif %}
+				{% if current_route != 'app_notes_index' %}
+					<a href="{{ path('app_notes_index') }}">mes notes</a>
+				{% endif %}
+				{% if current_route != 'app_user_profile' %}
+					<a href="{{ path('app_user_profile') }}">mon profil</a>
+				{% endif %}
+				{% else %}
+
+			{% endif %}
+
+			{% include 'searchbar/searchbar.html.twig' %}
+		</nav>
+
+
+		{% block body %}{% endblock %}
+	</body>
+</html>

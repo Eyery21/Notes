@@ -1,0 +1,9 @@
+
+{% block search_form %}
+
+	{{ form_start(searchForm) }}
+	{{ form_row(searchForm.searchTerm) }}
+	<button type="submit">Rechercher</button>
+	{{ form_end(searchForm) }}
+
+{% endblock %}

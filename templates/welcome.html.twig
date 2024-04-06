@@ -1,0 +1,42 @@
+{# {% extends 'base.html.twig' %} #}
+
+{% block title %}welcome
+{% endblock %}
+
+{% block body %}
+	<style>
+		.acceuil {
+			display: flex; /* Utilisation de Flexbox */
+			justify-content: space-around; /* Centrer les éléments avec un espace autour */
+			align-items: center; /* Centrer les éléments verticalement */
+			height: 100vh; /* Prendre toute la hauteur de la fenêtre */
+			margin: 0; /* Aucun margin pour le conteneur */
+			background-color: grey; /* Couleur de fond */
+		}
+
+		.fake_note {
+			width: 50%; /* Largeur de chaque boîte */
+			background-color: black;
+
+		}
+		.example-wrapper {
+			width: 50%; /* Largeur de chaque boîte */
+
+			/* Autres styles... */
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="acceuil">
+
+		<div class="fake_note">fake note</div>
+		<div class="example-wrapper">
+			voulez-vous vous <a href="{{ path('app_register') }}">inscrire</a>?
+			ou voulez-vous vous <a href="{{ path('app_login') }}">connecter</a>
+		</div>
+	</div>
+
+{% endblock %}
