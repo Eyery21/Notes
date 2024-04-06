@@ -20,7 +20,6 @@ class NotesController extends AbstractController
     #[Route('/', name: 'app_notes_index', methods: ['GET', 'POST'])]
     public function index(Request $request, NotesRepository $notesRepository, UserRepository $userRepository): Response
     {
-        $user = $this->getUser();
         // $searchForm = $this->createForm(FormSearchType::class);
         // $searchForm->handleRequest($request);
         $notes = [];
@@ -36,13 +35,12 @@ class NotesController extends AbstractController
         //     $searchPerformed = false; // La recherche n'a pas été effectuée
 
         // }
-        $notes = $notesRepository->findBy(['user' => $user]);
         $showUrgency = false;
 
 
         return $this->render('notes/index.html.twig', [
-            'notes' => $notes,
-            'user' => $user,
+            'notes' =>  $this->getUser()->getNotes(),
+            'user' => $this->getUser(),
             'showUrgency' => $showUrgency,
             // 'searchForm' => $searchForm->createView(),
             // 'searchPerformed' => $searchPerformed, // Passez cette nouvelle variable à Twig
@@ -56,7 +54,7 @@ class NotesController extends AbstractController
     public function new(Request $request, NotesRepository $notesRepository, EntityManagerInterface $entityManager): Response
     {
         $note = new Notes();
-        //$note->setUser($this->getUser()); // Obtient l'utilisateur actuellement connecté et l'attribue à la note
+        $note->addOwner($this->getUser()); // Obtient l'utilisateur actuellement connecté et l'attribue à la note
 
         $form = $this->createForm(NotesType::class, $note);
         $form->handleRequest($request);
@@ -114,6 +112,13 @@ class NotesController extends AbstractController
 
         $user = $this->getUser();
 
+        if ($note->getOwner() !== $user) {
+            return $this->render('error/retrictionEdit.html.twig', [
+                'user' => $user
+
+            ]);
+        };
+
         $form = $this->createForm(NotesType::class, $note);
         $form->handleRequest($request);
 
@@ -135,7 +140,7 @@ class NotesController extends AbstractController
 
         $user = $this->getUser();
 
-        if ($note->getUser() !== $user) {
+        if ($note->getOwner() !== $user) {
             return $this->render('error/restrictionDelete.html.twig', [
                 'user' => $user
             ]);

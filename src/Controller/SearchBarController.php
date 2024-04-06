@@ -27,13 +27,10 @@ class SearchBarController extends AbstractController
             $searchPerformed = true;
         }
 
-
-        return $this->render('base.html.twig', [
-            'controller_name' => 'SearchBarController',
+        return $this->render('searchbar/_searchbar.html.twig', [
             'searchForm' => $searchForm->createView(),
+            'searchPerformed' => $searchPerformed,
             'notes' => $notes,
-            'searchPerformed' => $searchPerformed, 
-
         ]);
     }
 }
